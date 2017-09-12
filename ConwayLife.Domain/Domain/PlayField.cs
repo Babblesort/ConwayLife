@@ -31,10 +31,7 @@ namespace ConwayLife.Domain
                 if (value >= MinSize && value <= MaxSize)
                 {
                     _rows = value;
-                    var sizeChangedArgs = new PlayFieldSizeChangedEventArgs();
-                    sizeChangedArgs.Rows = _rows;
-                    sizeChangedArgs.Cols = this.Cols;
-                    OnPlayFieldSizeChanged(sizeChangedArgs);
+                    OnPlayFieldSizeChanged(new PlayFieldSizeChangedEventArgs { Rows = _rows, Cols = Cols });
                 }
                 else
                 {
@@ -80,11 +77,7 @@ namespace ConwayLife.Domain
 
         protected virtual void OnPlayFieldSizeChanged(PlayFieldSizeChangedEventArgs e)
         {
-            EventHandler<PlayFieldSizeChangedEventArgs> handler = PlayFieldSizeChanged;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            PlayFieldSizeChanged?.Invoke(this, e);
         }
 
     }

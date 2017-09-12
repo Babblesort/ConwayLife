@@ -89,7 +89,7 @@ namespace ConwayLifeWinForms
                 game = new LifeGame(rules, field);
                 pnlField.RowsCount = field.Rows;
                 pnlField.ColsCount = field.Cols;
-                game.GenerationResolved += game_GenerationResolved;
+                game.GenerationResolvedHandler += GameGenerationResolvedHandler;
             }
             runState = RunState.Continuous;
             SetUIForGameState();
@@ -103,7 +103,7 @@ namespace ConwayLifeWinForms
                 game = new LifeGame(rules, field);
                 pnlField.RowsCount = field.Rows;
                 pnlField.ColsCount = field.Cols;
-                game.GenerationResolved += game_GenerationResolved;
+                game.GenerationResolvedHandler += GameGenerationResolvedHandler;
             }
             runState = RunState.Step;
             SetUIForGameState();
@@ -114,7 +114,7 @@ namespace ConwayLifeWinForms
         {
             if (game != null)
             {
-                game.GenerationResolved -= game_GenerationResolved;
+                game.GenerationResolvedHandler -= GameGenerationResolvedHandler;
                 game = null;
             }
             runState = RunState.Idle;
@@ -275,7 +275,7 @@ namespace ConwayLifeWinForms
             lblGeneration.Text = "n/a";
         }
 
-        void game_GenerationResolved(object sender, GenerationResolvedEventArgs e)
+        void GameGenerationResolvedHandler(object sender, GenerationResolvedEventArgs e)
         {
             SetGenerationText(e.generation.ToString("N0"));
             SetGamePanelCells(e.cellStates);

@@ -6,31 +6,33 @@ namespace ConwayLife.Domain
 {
     public class LifeGame
     {
-        public event EventHandler<GenerationResolvedEventArgs> GenerationResolved;
+        public event EventHandler<GenerationResolvedEventArgs> GenerationResolvedHandler;
 
-        LifeRules rules;
-        PlayField field;
+        private readonly LifeRules _rules;
+        private readonly PlayField _field;
 
         public int Generation { get; private set; }
         public bool Extinction { get; private set; }
 
-        List<bool> currentCellStates;
-        List<bool> nextGenCellStates;
-
+        private List<bool> _currentCells;
+        private List<bool> _nextCells;
 
         public LifeGame(LifeRules lifeRules, PlayField playField)
         {
-            if (lifeRules == null || playField == null)
+            if (lifeRules == null)
             {
-                throw new ArgumentNullException("Null argument in constructor.");
+                throw new ArgumentNullException(nameof(lifeRules),  "Attempt to create LifeGame with null LifeRules");
             }
-            else
+
+            if (playField == null)
             {
-                rules = lifeRules;
-                field = playField;
-                Extinction = false;
-                Generation = 0;
+                throw new ArgumentNullException(nameof(playField), "Attempt to create LifeGame with null PlayField");
             }
+
+            _rules = lifeRules;
+            _field = playField;
+            Extinction = false;
+            Generation = 0;
         }
 
         public void ResolveNextGeneration()
@@ -38,26 +40,24 @@ namespace ConwayLife.Domain
 
             if (Generation == 0)
             {
-                currentCellStates = GetRandomizedCells();
+                _currentCells = GetRandomizedCells();
             }
             else
             {
-                nextGenCellStates = new List<bool>(Enumerable.Repeat(false, currentCellStates.Count).ToList());
+                _nextCells = new List<bool>(Enumerable.Repeat(false, _currentCells.Count).ToList());
                 if (LiveCellsRemain())
                 {
-                    int cellIndexCurr;
-                    int livingNeighborCount;
-                    for (int row = 0; row < field.Rows; row++)
+                    for (var row = 0; row < _field.Rows; row++)
                     {
-                        for (int col = 0; col < field.Cols; col++)
+                        for (var col = 0; col < _field.Cols; col++)
                         {
-                            cellIndexCurr = IndexOfRowCol(row, col, field.Cols);
-                            livingNeighborCount = GetLivingNeighborsCount(row, col);
-                            nextGenCellStates[cellIndexCurr] = CellSurvives(currentCellStates[cellIndexCurr], livingNeighborCount);
+                            var i = IndexOfRowCol(row, col, _field.Cols);
+                            var neighborCount = GetLivingNeighborsCount(row, col);
+                            _nextCells[i] = CellSurvives(_currentCells[i], neighborCount);
                         }
                     }
                 }
-                currentCellStates = nextGenCellStates;
+                _currentCells = _nextCells;
             }
             Generation += 1;
             if (!LiveCellsRemain())
@@ -65,40 +65,28 @@ namespace ConwayLife.Domain
                 Extinction = true;
             }
 
-            GenerationResolvedEventArgs resolvedArgs = new GenerationResolvedEventArgs();
-            resolvedArgs.cellStates = currentCellStates;
-            resolvedArgs.generation = Generation;
-            OnGenerationResolved(resolvedArgs);
+            OnGenerationResolved(new GenerationResolvedEventArgs { cellStates = _currentCells, generation = Generation });
         }
 
         protected virtual void OnGenerationResolved(GenerationResolvedEventArgs e)
         {
-            EventHandler<GenerationResolvedEventArgs> handler = GenerationResolved;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            GenerationResolvedHandler?.Invoke(this, e);
         }
         
         private List<bool> GetRandomizedCells()
         {
-            var randomLifeCells = new List<bool>();
-            Random rnd = new Random();
-            for (var i = 0; i < field.TotalCellCount; i++)
-            {
-                // About 1 in 3 init alive
-                randomLifeCells.Add(rnd.Next(0, 100) > 66);
-            }
-            return randomLifeCells;
+            var rnd = new Random();
+            return Enumerable.Range(1, _field.TotalCellCount)
+                .Select(x => rnd.Next(0, 100) > 66)
+                .ToList();
         }
 
         private bool LiveCellsRemain()
         {
-            // Return true if at least one cell is living
-            return currentCellStates.Where(c => c).Count() > 0;
+            return _currentCells.Any(c => c);
         }
 
-        private int IndexOfRowCol(int row, int col, int colsCount)
+        private static int IndexOfRowCol(int row, int col, int colsCount)
         {
             // Convert a given row/column into a linear index
             return (row * colsCount) + col;
@@ -106,7 +94,7 @@ namespace ConwayLife.Domain
 
         private int GetLivingNeighborsCount(int row, int col)
         {
-            int count = 0;
+            var count = 0;
 
             // Check the eight positions around current cell for neighbor alive status
 
@@ -117,65 +105,63 @@ namespace ConwayLife.Domain
             // Top Left Neighbor
             if (row > 0 && col > 0)
             {
-                count += IncrementIfAlive(currentCellStates[IndexOfRowCol(row - 1, col - 1, field.Cols)]);
+                count += IncrementIfAlive(_currentCells[IndexOfRowCol(row - 1, col - 1, _field.Cols)]);
             }
 
             // Top Neighbor
             if (row > 0)
             {
-                count += IncrementIfAlive(currentCellStates[IndexOfRowCol(row - 1, col, field.Cols)]);
+                count += IncrementIfAlive(_currentCells[IndexOfRowCol(row - 1, col, _field.Cols)]);
             }
 
             // Top Right Neighbor
-            if (row > 0 && col < field.Cols - 1)
+            if (row > 0 && col < _field.Cols - 1)
             {
-                count += IncrementIfAlive(currentCellStates[IndexOfRowCol(row - 1, col + 1, field.Cols)]);
+                count += IncrementIfAlive(_currentCells[IndexOfRowCol(row - 1, col + 1, _field.Cols)]);
             }
 
             // Left Neighbor
             if (col > 0)
             {
-                count += IncrementIfAlive(currentCellStates[IndexOfRowCol(row, col - 1, field.Cols)]);
+                count += IncrementIfAlive(_currentCells[IndexOfRowCol(row, col - 1, _field.Cols)]);
             }
 
             // Right Neighbor
-            if (col < field.Cols - 1)
+            if (col < _field.Cols - 1)
             {
-                count += IncrementIfAlive(currentCellStates[IndexOfRowCol(row, col + 1, field.Cols)]);
+                count += IncrementIfAlive(_currentCells[IndexOfRowCol(row, col + 1, _field.Cols)]);
             }
 
             // Bottom Left Neighbor
-            if (row < field.Rows - 1 && col > 0)
+            if (row < _field.Rows - 1 && col > 0)
             {
-                count += IncrementIfAlive(currentCellStates[IndexOfRowCol(row + 1, col - 1, field.Cols)]);
+                count += IncrementIfAlive(_currentCells[IndexOfRowCol(row + 1, col - 1, _field.Cols)]);
             }
 
             // Bottom Neighbor
-            if (row < field.Rows - 1)
+            if (row < _field.Rows - 1)
             {
-                count += IncrementIfAlive(currentCellStates[IndexOfRowCol(row + 1, col, field.Cols)]);
+                count += IncrementIfAlive(_currentCells[IndexOfRowCol(row + 1, col, _field.Cols)]);
             }
 
             // Bottom Right Neighbor
-            if (row < field.Rows - 1 && col < field.Cols - 1)
+            if (row < _field.Rows - 1 && col < _field.Cols - 1)
             {
-                count += IncrementIfAlive(currentCellStates[IndexOfRowCol(row + 1, col + 1, field.Cols)]);
+                count += IncrementIfAlive(_currentCells[IndexOfRowCol(row + 1, col + 1, _field.Cols)]);
             }
 
             return count;
         }
 
-        private int IncrementIfAlive(bool alive)
+        private static int IncrementIfAlive(bool alive)
         {
             return alive ? 1 : 0;
         }
 
         private bool CellSurvives(bool alive, int livingNeighborCount)
         {
-            return (alive && (rules.SurvivalNeighborCounts.Contains(livingNeighborCount))) || 
-                   (!alive && (rules.BirthNeighborCounts.Contains(livingNeighborCount)));
+            return (alive && (_rules.SurvivalNeighborCounts.Contains(livingNeighborCount))) || 
+                   (!alive && (_rules.BirthNeighborCounts.Contains(livingNeighborCount)));
         }
-
-
     }
 }

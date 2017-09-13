@@ -81,15 +81,18 @@ namespace ConwayLife.UI
             SetUiForGameState();
         }
 
+        private void CreateGameIfNeeded()
+        {
+            if (_game != null) return;
+            _game = new LifeGame(_rules, _field);
+            pnlField.RowsCount = _field.Rows;
+            pnlField.ColsCount = _field.Cols;
+            _game.GenerationResolvedHandler += GameGenerationResolvedHandler;
+        }
+
         private void btnRunGame_Click(object sender, EventArgs e)
         {
-            if (_game == null)
-            {
-                _game = new LifeGame(_rules, _field);
-                pnlField.RowsCount = _field.Rows;
-                pnlField.ColsCount = _field.Cols;
-                _game.GenerationResolvedHandler += GameGenerationResolvedHandler;
-            }
+            CreateGameIfNeeded();
             _runState = RunState.Continuous;
             SetUiForGameState();
             bwGame.RunWorkerAsync(EventArgs.Empty);
@@ -97,13 +100,7 @@ namespace ConwayLife.UI
 
         private void btnStepGame_Click(object sender, EventArgs e)
         {
-            if (_game == null)
-            {
-                _game = new LifeGame(_rules, _field);
-                pnlField.RowsCount = _field.Rows;
-                pnlField.ColsCount = _field.Cols;
-                _game.GenerationResolvedHandler += GameGenerationResolvedHandler;
-            }
+            CreateGameIfNeeded();
             _runState = RunState.Step;
             SetUiForGameState();
             _game.ResolveNextGeneration();
@@ -220,7 +217,6 @@ namespace ConwayLife.UI
         private void SetUiForGameState()
         {
             switch (_runState) {
-
                 case RunState.Idle:
                 {
                     btnRunGame.Enabled = true;
@@ -251,6 +247,8 @@ namespace ConwayLife.UI
                     SetGameOptionControlsAvailable(available: false);
                     break;
                 }
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 

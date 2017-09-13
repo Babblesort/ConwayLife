@@ -22,15 +22,9 @@ namespace ConwayLife.Domain
             }
             set
             {
-                if (value < MinGenerations)
+                if (value < MinGenerations || value > MaxGenerations)
                 {
-                    throw new ArgumentOutOfRangeException("AllowedGenerations",
-                        $"Must be greater or equal to {MinGenerations}.");
-                }
-                if (value > MaxGenerations)
-                {
-                    throw new ArgumentOutOfRangeException("AllowedGenerations",
-                        $"Must be less than or equal to {MaxGenerations}.");
+                    throw new ArgumentOutOfRangeException(nameof(value), $"Must be between {MinGenerations} and {MaxGenerations} inclusive.");
                 }
 
                 _allowedGenerations = value;
@@ -45,15 +39,9 @@ namespace ConwayLife.Domain
             }
             set
             {
-                if (value < MinDelayMilliseconds)
+                if (value < MinDelayMilliseconds || value > MaxDelayMilliseconds)
                 {
-                    throw new ArgumentOutOfRangeException("DelayStepMilliseconds",
-                        $"Must be greater or equal to {MinDelayMilliseconds}.");
-                }
-                if (value > MaxDelayMilliseconds)
-                {
-                    throw new ArgumentOutOfRangeException("DelayStepMilliseconds",
-                        $"Must be less than or equal to {MaxDelayMilliseconds}.");
+                    throw new ArgumentOutOfRangeException(nameof(value), $"Must be between {MinDelayMilliseconds} and {MaxDelayMilliseconds} inclusive.");
                 }
 
                 _delayStep = value;

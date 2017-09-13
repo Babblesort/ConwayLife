@@ -9,8 +9,8 @@ namespace ConwayLife.Domain
         public static readonly int MinNeighborCount = 0;
         public static readonly int MaxNeighborCount = 8;
 
-        public List<int> SurvivalNeighborCounts { get; private set; }
-        public List<int> BirthNeighborCounts { get; private set; }
+        public List<int> SurvivalNeighborCounts { get; }
+        public List<int> BirthNeighborCounts { get; }
 
         public LifeRules()
         {
@@ -33,17 +33,17 @@ namespace ConwayLife.Domain
             if (InvalidNeighborCount(surviveCounts))
             {
                 throw new ArgumentOutOfRangeException(nameof(surviveCounts),
-                    $"surviveCounts list must have at least one member and each number must be between {MinNeighborCount} and {MaxNeighborCount} inclusive.");
+                    $"Must have at least one number and each number must be between {MinNeighborCount} and {MaxNeighborCount} inclusive.");
             }
 
             if (InvalidNeighborCount(birthCounts))
             {
                 throw new ArgumentOutOfRangeException(nameof(birthCounts),
-                    $"birthCounts list must have at least one member and each number must be between {MinNeighborCount} and {MaxNeighborCount} inclusive.");
+                    $"Must have at least one number and each number must be between {MinNeighborCount} and {MaxNeighborCount} inclusive.");
             }
 
-            SurvivalNeighborCounts = new List<int>(surviveCounts);
-            BirthNeighborCounts = new List<int>(birthCounts);
+            SurvivalNeighborCounts = surviveCounts;
+            BirthNeighborCounts = birthCounts;
         }
 
         private static bool InvalidNeighborCount(IList<int> list)

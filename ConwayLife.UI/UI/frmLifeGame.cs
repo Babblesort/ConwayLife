@@ -54,8 +54,8 @@ namespace ConwayLifeWinForms
             rules = new LifeRules();
             for (var i = LifeRules.MinNeighborCount; i <= LifeRules.MaxNeighborCount; i++)
             {
-                chklstSurviveCounts.Items.Add(string.Format("{0} Neighbors", i));
-                chklistBornCounts.Items.Add(string.Format("{0} Neighbors", i));
+                chklstSurviveCounts.Items.Add($"{i} Neighbors");
+                chklistBornCounts.Items.Add($"{i} Neighbors");
             }
 
             foreach(var i in rules.SurvivalNeighborCounts) {

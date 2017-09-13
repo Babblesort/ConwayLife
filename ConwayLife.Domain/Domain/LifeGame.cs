@@ -47,9 +47,9 @@ namespace ConwayLife.Domain
                 _nextCells = new List<bool>(Enumerable.Repeat(false, _currentCells.Count).ToList());
                 if (LiveCellsRemain())
                 {
-                    for (var row = 0; row < _field.Rows; row++)
+                    for (var row=0; row < _field.Rows; row++)
                     {
-                        for (var col = 0; col < _field.Cols; col++)
+                        for (var col=0; col < _field.Cols; col++)
                         {
                             var i = IndexOfRowCol(row, col, _field.Cols);
                             var neighborCount = GetLivingNeighborsCount(row, col);

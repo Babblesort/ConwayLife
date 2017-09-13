@@ -26,7 +26,7 @@ namespace ConwayLife.UI
 
         public void ClearBoard()
         {
-            CellStates = new List<bool>();
+            CellStates.Clear();
             Refresh();
         }
 

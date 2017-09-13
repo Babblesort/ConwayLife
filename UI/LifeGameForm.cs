@@ -34,6 +34,7 @@ namespace ConwayLife.UI
             numDelay.Maximum = GameRunOptions.MaxDelayMilliseconds;
             numDelay.DataBindings.Add(new Binding("Value", _options, "DelayStepMilliseconds", true, DataSourceUpdateMode.OnPropertyChanged));
 
+            pnlField.CellStates = new List<bool>();
             _field = new PlayField();
             _field.PlayFieldSizeChanged += field_PlayFieldSizeChanged;
             _field.Rows = 50;

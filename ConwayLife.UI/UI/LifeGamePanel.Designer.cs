@@ -1,6 +1,6 @@
 ﻿namespace ConwayLifeWinForms
 {
-    partial class LifeGamePanel
+    sealed partial class LifeGamePanel
     {
         /// <summary>
         /// Required designer variable.

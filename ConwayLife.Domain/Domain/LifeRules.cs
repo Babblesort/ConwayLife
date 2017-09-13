@@ -22,35 +22,33 @@ namespace ConwayLife.Domain
         {
             if (surviveCounts == null)
             {
-                throw new ArgumentNullException("surviveCounts", "List cannot be null");
+                throw new ArgumentNullException(nameof(surviveCounts), "List cannot be null");
             }
 
             if (birthCounts == null)
             {
-                throw new ArgumentNullException("birthCounts", "List cannot be null");
+                throw new ArgumentNullException(nameof(birthCounts), "List cannot be null");
             }
 
             if (InvalidNeighborCount(surviveCounts))
             {
-                throw new ArgumentOutOfRangeException("surviveCounts",
-                    string.Format("surviveCounts list must have at least one member and each number must be between {0} and {1} inclusive.",
-                                    MinNeighborCount, MaxNeighborCount));
+                throw new ArgumentOutOfRangeException(nameof(surviveCounts),
+                    $"surviveCounts list must have at least one member and each number must be between {MinNeighborCount} and {MaxNeighborCount} inclusive.");
             }
 
             if (InvalidNeighborCount(birthCounts))
             {
-                throw new ArgumentOutOfRangeException("birthCounts",
-                    string.Format("birthCounts list must have at least one member and each number must be between {0} and {1} inclusive.",
-                                    MinNeighborCount, MaxNeighborCount));
+                throw new ArgumentOutOfRangeException(nameof(birthCounts),
+                    $"birthCounts list must have at least one member and each number must be between {MinNeighborCount} and {MaxNeighborCount} inclusive.");
             }
 
             SurvivalNeighborCounts = new List<int>(surviveCounts);
             BirthNeighborCounts = new List<int>(birthCounts);
         }
 
-        private bool InvalidNeighborCount(IList<int> list)
+        private static bool InvalidNeighborCount(IList<int> list)
         {
-            return list.Count() == 0 || list.Any(i => i > MaxNeighborCount || i < MinNeighborCount);
+            return !list.Any() || list.Any(i => i > MaxNeighborCount || i < MinNeighborCount);
         }
 
     }

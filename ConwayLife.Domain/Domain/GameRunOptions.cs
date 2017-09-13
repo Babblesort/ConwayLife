@@ -25,12 +25,12 @@ namespace ConwayLife.Domain
                 if (value < MinGenerations)
                 {
                     throw new ArgumentOutOfRangeException("AllowedGenerations",
-                        String.Format("Must be greater or equal to {0}.", MinGenerations));
+                        $"Must be greater or equal to {MinGenerations}.");
                 }
                 if (value > MaxGenerations)
                 {
                     throw new ArgumentOutOfRangeException("AllowedGenerations",
-                        String.Format("Must be less than or equal to {0}.", MaxGenerations));
+                        $"Must be less than or equal to {MaxGenerations}.");
                 }
 
                 _allowedGenerations = value;
@@ -48,12 +48,12 @@ namespace ConwayLife.Domain
                 if (value < MinDelayMilliseconds)
                 {
                     throw new ArgumentOutOfRangeException("DelayStepMilliseconds",
-                        String.Format("Must be greater or equal to {0}.", MinDelayMilliseconds));
+                        $"Must be greater or equal to {MinDelayMilliseconds}.");
                 }
                 if (value > MaxDelayMilliseconds)
                 {
                     throw new ArgumentOutOfRangeException("DelayStepMilliseconds",
-                        String.Format("Must be less than or equal to {0}.", MaxDelayMilliseconds));
+                        $"Must be less than or equal to {MaxDelayMilliseconds}.");
                 }
 
                 _delayStep = value;

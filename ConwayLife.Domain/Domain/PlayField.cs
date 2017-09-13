@@ -30,8 +30,7 @@ namespace ConwayLife.Domain
             {
                 if (value < MinSize || value > MaxSize)
                 {
-                    throw new ArgumentOutOfRangeException(
-                        string.Format("Rows value must be between {0} and {1} inclusive.", MinSize, MaxSize));
+                    throw new ArgumentOutOfRangeException($"Rows value must be between {MinSize} and {MaxSize} inclusive.");
                 }
 
                 _rows = value;
@@ -49,8 +48,7 @@ namespace ConwayLife.Domain
             {
                 if (value < MinSize || value > MaxSize)
                 {
-                    throw new ArgumentOutOfRangeException(
-                        string.Format("Cols value must be between {0} and {1} inclusive.", MinSize, MaxSize));
+                    throw new ArgumentOutOfRangeException($"Cols value must be between {MinSize} and {MaxSize} inclusive.");
                 }
 
                 _cols = value;
@@ -58,13 +56,7 @@ namespace ConwayLife.Domain
             }
         }
 
-        public int TotalCellCount
-        {
-            get
-            {
-                return Rows * Cols;
-            }
-        }
+        public int TotalCellCount => Rows * Cols;
 
         protected virtual void OnPlayFieldSizeChanged(PlayFieldSizeChangedEventArgs e)
         {

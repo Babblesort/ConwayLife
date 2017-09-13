@@ -1,6 +1,6 @@
 ﻿namespace ConwayLife.UI
 {
-    partial class frmLifeGame
+    partial class LifeGameForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLifeGame));
+            var resources = new System.ComponentModel.ComponentResourceManager(typeof(LifeGameForm));
             this.btnExit = new System.Windows.Forms.Button();
             this.numGenerations = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
@@ -306,7 +306,7 @@
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(850, 570);
-            this.Name = "frmLifeGame";
+            this.Name = "LifeGameForm";
             this.Text = "Life - Conway Style";
             ((System.ComponentModel.ISupportInitialize)(this.numGenerations)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCols)).EndInit();

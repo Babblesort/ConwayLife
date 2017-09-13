@@ -70,16 +70,16 @@
     <Compile Include="LifeGamePanel.Designer.cs">
       <DependentUpon>LifeGamePanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmLifeGame.cs">
+    <Compile Include="LifeGameForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmLifeGame.Designer.cs">
-      <DependentUpon>frmLifeGame.cs</DependentUpon>
+    <Compile Include="LifeGameForm.Designer.cs">
+      <DependentUpon>LifeGameForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="frmLifeGame.resx">
-      <DependentUpon>frmLifeGame.cs</DependentUpon>
+    <EmbeddedResource Include="LifeGameForm.resx">
+      <DependentUpon>LifeGameForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

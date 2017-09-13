@@ -6,23 +6,21 @@ namespace ConwayLife.Tests
     [TestFixture]
     public class LifeGameTests
     {
-        LifeGame game;
-        LifeRules rules = new LifeRules();
-        PlayField field = new PlayField();
+        private readonly LifeRules _rules = new LifeRules();
+        private readonly PlayField _field = new PlayField();
 
         [Test]
         [ExpectedException("System.ArgumentNullException")]
         public void NullLifeRules()
         {
-            game = new LifeGame(null, field);
-
+            var unused = new LifeGame(null, _field);
         }
 
         [Test]
         [ExpectedException("System.ArgumentNullException")]
         public void NullPlayField()
         {
-            game = new LifeGame(rules, null);
+            var unused = new LifeGame(_rules, null);
         }
 
     }

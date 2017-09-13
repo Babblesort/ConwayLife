@@ -7,60 +7,59 @@ using ConwayLife.Domain;
 
 namespace ConwayLife.UI
 {
-    public partial class frmLifeGame : Form
+    public partial class LifeGameForm : Form
     {
-        GameRunOptions options;
-        PlayField field;
-        LifeRules rules;
-        LifeGame game;
+        private readonly GameRunOptions _options;
+        private readonly PlayField _field;
+        private readonly LifeRules _rules;
+        private LifeGame _game;
+        private RunState _runState;
 
-        ToolTip tip;
-        RunState runState;
-        delegate void SetGenerationTextCallback(string text);
-        delegate void SetGamePanelCellsCallback(List<bool> cells);
+        private delegate void SetGenerationTextCallback(string text);
+        private delegate void SetGamePanelCellsCallback(List<bool> cells);
 
-        public frmLifeGame()
+        public LifeGameForm()
         {
             InitializeComponent();
 
-            tip = new ToolTip();
-            options = new GameRunOptions();
+            var tip = new ToolTip();
+            _options = new GameRunOptions();
             tip.SetToolTip(numGenerations, "Maximum number of generations for run");
             numGenerations.Minimum = GameRunOptions.MinGenerations;
             numGenerations.Maximum = GameRunOptions.MaxGenerations;
-            numGenerations.DataBindings.Add(new Binding("Value", options, "AllowedGenerations", true, DataSourceUpdateMode.OnPropertyChanged));
+            numGenerations.DataBindings.Add(new Binding("Value", _options, "AllowedGenerations", true, DataSourceUpdateMode.OnPropertyChanged));
 
             tip.SetToolTip(numDelay, "Milliseconds of delay between generations");
             numDelay.Minimum = GameRunOptions.MinDelayMilliseconds;
             numDelay.Maximum = GameRunOptions.MaxDelayMilliseconds;
-            numDelay.DataBindings.Add(new Binding("Value", options, "DelayStepMilliseconds", true, DataSourceUpdateMode.OnPropertyChanged));
+            numDelay.DataBindings.Add(new Binding("Value", _options, "DelayStepMilliseconds", true, DataSourceUpdateMode.OnPropertyChanged));
 
-            field = new PlayField();
-            field.PlayFieldSizeChanged += field_PlayFieldSizeChanged;
-            field.Rows = 50;
-            field.Cols = 50;
+            _field = new PlayField();
+            _field.PlayFieldSizeChanged += field_PlayFieldSizeChanged;
+            _field.Rows = 50;
+            _field.Cols = 50;
 
             tip.SetToolTip(numRows, "Number of rows on the play field");
             numRows.Minimum = PlayField.MinSize;
             numRows.Maximum = PlayField.MaxSize;
-            numRows.DataBindings.Add(new Binding("Value", field, "Rows", true, DataSourceUpdateMode.OnPropertyChanged));
+            numRows.DataBindings.Add(new Binding("Value", _field, "Rows", true, DataSourceUpdateMode.OnPropertyChanged));
 
             tip.SetToolTip(numCols, "Number of columns on the play field");
             numCols.Minimum = PlayField.MinSize;
             numCols.Maximum = PlayField.MaxSize;
-            numCols.DataBindings.Add(new Binding("Value", field, "Cols", true, DataSourceUpdateMode.OnPropertyChanged));
+            numCols.DataBindings.Add(new Binding("Value", _field, "Cols", true, DataSourceUpdateMode.OnPropertyChanged));
 
-            rules = new LifeRules();
+            _rules = new LifeRules();
             for (var i = LifeRules.MinNeighborCount; i <= LifeRules.MaxNeighborCount; i++)
             {
                 chklstSurviveCounts.Items.Add($"{i} Neighbors");
                 chklistBornCounts.Items.Add($"{i} Neighbors");
             }
 
-            foreach(var i in rules.SurvivalNeighborCounts) {
+            foreach(var i in _rules.SurvivalNeighborCounts) {
                 chklstSurviveCounts.SetItemChecked(i, true);
             }
-            foreach (var i in rules.BirthNeighborCounts)
+            foreach (var i in _rules.BirthNeighborCounts)
             {
                 chklistBornCounts.SetItemChecked(i, true);
             }
@@ -77,66 +76,66 @@ namespace ConwayLife.UI
             bwGame.DoWork += bwGame_DoWork;
             bwGame.RunWorkerCompleted += bwGame_RunWorkerCompleted;
 
-            runState = RunState.Idle;
-            SetUIForGameState();
+            _runState = RunState.Idle;
+            SetUiForGameState();
         }
 
-        void btnRunGame_Click(object sender, EventArgs e)
+        private void btnRunGame_Click(object sender, EventArgs e)
         {
-            if (game == null)
+            if (_game == null)
             {
-                game = new LifeGame(rules, field);
-                pnlField.RowsCount = field.Rows;
-                pnlField.ColsCount = field.Cols;
-                game.GenerationResolvedHandler += GameGenerationResolvedHandler;
+                _game = new LifeGame(_rules, _field);
+                pnlField.RowsCount = _field.Rows;
+                pnlField.ColsCount = _field.Cols;
+                _game.GenerationResolvedHandler += GameGenerationResolvedHandler;
             }
-            runState = RunState.Continuous;
-            SetUIForGameState();
+            _runState = RunState.Continuous;
+            SetUiForGameState();
             bwGame.RunWorkerAsync(EventArgs.Empty);
         }
 
-        void btnStepGame_Click(object sender, EventArgs e)
+        private void btnStepGame_Click(object sender, EventArgs e)
         {
-            if (game == null)
+            if (_game == null)
             {
-                game = new LifeGame(rules, field);
-                pnlField.RowsCount = field.Rows;
-                pnlField.ColsCount = field.Cols;
-                game.GenerationResolvedHandler += GameGenerationResolvedHandler;
+                _game = new LifeGame(_rules, _field);
+                pnlField.RowsCount = _field.Rows;
+                pnlField.ColsCount = _field.Cols;
+                _game.GenerationResolvedHandler += GameGenerationResolvedHandler;
             }
-            runState = RunState.Step;
-            SetUIForGameState();
-            game.ResolveNextGeneration();
+            _runState = RunState.Step;
+            SetUiForGameState();
+            _game.ResolveNextGeneration();
         }
 
-        void TerminateGame()
+        private void TerminateGame()
         {
-            if (game != null)
+            if (_game != null)
             {
-                game.GenerationResolvedHandler -= GameGenerationResolvedHandler;
-                game = null;
+                _game.GenerationResolvedHandler -= GameGenerationResolvedHandler;
+                _game = null;
             }
-            runState = RunState.Idle;
-            SetUIForGameState();
+            _runState = RunState.Idle;
+            SetUiForGameState();
         }
 
-        void btnClearGame_Click(object sender, EventArgs e)
+        private void btnClearGame_Click(object sender, EventArgs e)
         {
             ClearBoard();
             TerminateGame();
         }
 
-        void btnPauseGame_Click(object sender, EventArgs e)
+        private void btnPauseGame_Click(object sender, EventArgs e)
         {
             bwGame.CancelAsync();
         }
 
-        void btnExit_Click(object sender, EventArgs e)
+        private static void btnExit_Click(object sender, EventArgs e)
         {
             Environment.Exit(0);
         }
 
-        void field_PlayFieldSizeChanged(object sender, PlayFieldSizeChangedEventArgs e)
+        private void field_PlayFieldSizeChanged(object sender, PlayFieldSizeChangedEventArgs e)
         {
             ClearBoard();
             pnlField.RowsCount = e.Rows;
@@ -144,37 +143,37 @@ namespace ConwayLife.UI
             pnlField.Refresh();
         }
 
-        void chklistBornCounts_ItemCheck(object sender, ItemCheckEventArgs e)
+        private void chklistBornCounts_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             if (e.NewValue == CheckState.Checked)
             {
-                rules.BirthNeighborCounts.Add(e.Index);
+                _rules.BirthNeighborCounts.Add(e.Index);
             }
             else
             {
-                rules.BirthNeighborCounts.Remove(e.Index);
+                _rules.BirthNeighborCounts.Remove(e.Index);
             }
         }
 
-        void chklstSurviveCounts_ItemCheck(object sender, ItemCheckEventArgs e)
+        private void chklstSurviveCounts_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             if (e.NewValue == CheckState.Checked)
             {
-                rules.SurvivalNeighborCounts.Add(e.Index);
+                _rules.SurvivalNeighborCounts.Add(e.Index);
             }
             else
             {
-                rules.SurvivalNeighborCounts.Remove(e.Index);
+                _rules.SurvivalNeighborCounts.Remove(e.Index);
             }
         }
 
-        void bwGame_DoWork(object sender, DoWorkEventArgs e)
+        private void bwGame_DoWork(object sender, DoWorkEventArgs e)
         {
             var worker = (BackgroundWorker)sender;
             RunGameContinuous(worker, e);
         }
 
-        void bwGame_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void bwGame_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Error != null)
             {
@@ -184,21 +183,20 @@ namespace ConwayLife.UI
             if (e.Cancelled)
             {
                 // Game paused
-                runState = RunState.Step;
-                SetUIForGameState();
+                _runState = RunState.Step;
+                SetUiForGameState();
             }
             else
             {
                 TerminateGame();
-                runState = RunState.Step;
-                SetUIForGameState();
+                _runState = RunState.Step;
+                SetUiForGameState();
             }
         }
 
         public void RunGameContinuous(BackgroundWorker workerThread, DoWorkEventArgs e)
         {
-
-            bool halted = false;
+            var halted = false;
 
             while (!halted)
             {
@@ -207,23 +205,20 @@ namespace ConwayLife.UI
                     e.Cancel = true;
                     break;
                 }
-                else
-                {
-                    Thread.Sleep(options.DelayStepMilliseconds);
-                    game.ResolveNextGeneration();
+                Thread.Sleep(_options.DelayStepMilliseconds);
+                _game.ResolveNextGeneration();
 
-                    if (options.HaltOnExtinction && game.Extinction || game.Generation >= options.AllowedGenerations)
-                    {
-                        halted = true;
-                    }
+                if (_options.HaltOnExtinction && _game.Extinction || _game.Generation >= _options.AllowedGenerations)
+                {
+                    halted = true;
                 }
             }
 
         }
 
-        void SetUIForGameState()
+        private void SetUiForGameState()
         {
-            switch (runState) {
+            switch (_runState) {
 
                 case RunState.Idle:
                 {
@@ -258,7 +253,7 @@ namespace ConwayLife.UI
             }
         }
 
-        void SetGameOptionControlsAvailable(bool available)
+        private void SetGameOptionControlsAvailable(bool available)
         {
             chklstSurviveCounts.Enabled = available;
             chklistBornCounts.Enabled = available;
@@ -268,13 +263,13 @@ namespace ConwayLife.UI
             numDelay.Enabled = available;
         }
 
-        void ClearBoard()
+        private void ClearBoard()
         {
             pnlField.ClearBoard();
             lblGeneration.Text = "n/a";
         }
 
-        void GameGenerationResolvedHandler(object sender, GenerationResolvedEventArgs e)
+        private void GameGenerationResolvedHandler(object sender, GenerationResolvedEventArgs e)
         {
             SetGenerationText(e.Generation.ToString("N0"));
             SetGamePanelCells(e.CellStates);
@@ -304,6 +299,5 @@ namespace ConwayLife.UI
                 pnlField.Refresh();
             }
         }
-
     }
 }

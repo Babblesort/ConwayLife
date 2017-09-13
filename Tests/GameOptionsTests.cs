@@ -6,72 +6,71 @@ namespace ConwayLife.Tests
     [TestFixture]
     public class GameOptionsTests
     {
-        GameRunOptions testOptions;
+        private GameRunOptions _options;
 
         [SetUp]
         public void Init()
         {
-            testOptions = new GameRunOptions();
+            _options = new GameRunOptions();
         }
 
         [TearDown]
         public void Dispose()
         {
-            testOptions = null;
+            _options = null;
         }
 
         [Test]
         public void AllowedGenerationsAssignment()
         {
-            testOptions.AllowedGenerations = 10;
-            Assert.AreEqual(10, testOptions.AllowedGenerations);
+            _options.AllowedGenerations = 10;
+            Assert.AreEqual(10, _options.AllowedGenerations);
         }
 
         [Test]
         public void AllowedDelayStepAssignment()
         {
-            testOptions.DelayStepMilliseconds = 200;
-            Assert.AreEqual(200, testOptions.DelayStepMilliseconds);
+            _options.DelayStepMilliseconds = 200;
+            Assert.AreEqual(200, _options.DelayStepMilliseconds);
         }
 
         [Test]
         public void HaltOnExtinctionAssignment()
         {
-            testOptions.HaltOnExtinction = false;
-            Assert.AreEqual(false, testOptions.HaltOnExtinction);
+            _options.HaltOnExtinction = false;
+            Assert.AreEqual(false, _options.HaltOnExtinction);
         }
 
         [Test]
         [ExpectedException("System.ArgumentOutOfRangeException")]
         public void MinGenerationsExceeded()
         {
-            int i = GameRunOptions.MinGenerations - 1;
-            testOptions.AllowedGenerations = i;
+            var i = GameRunOptions.MinGenerations - 1;
+            _options.AllowedGenerations = i;
         }
 
         [Test]
         [ExpectedException("System.ArgumentOutOfRangeException")]
         public void MaxGenerationsExceeded()
         {
-            int i = GameRunOptions.MaxGenerations + 1;
-            testOptions.AllowedGenerations = i;
+            var i = GameRunOptions.MaxGenerations + 1;
+            _options.AllowedGenerations = i;
         }
 
         [Test]
         [ExpectedException("System.ArgumentOutOfRangeException")]
         public void MinDelayExceeded()
         {
-            int i = GameRunOptions.MinDelayMilliseconds - 1;
-            testOptions.DelayStepMilliseconds = i;
+            var i = GameRunOptions.MinDelayMilliseconds - 1;
+            _options.DelayStepMilliseconds = i;
         }
 
         [Test]
         [ExpectedException("System.ArgumentOutOfRangeException")]
         public void MaxDelayExceeded()
         {
-            int i = GameRunOptions.MaxDelayMilliseconds + 1;
-            testOptions.DelayStepMilliseconds = i;
+            var i = GameRunOptions.MaxDelayMilliseconds + 1;
+            _options.DelayStepMilliseconds = i;
         }
-
     }
 }

@@ -8,11 +8,10 @@ namespace ConwayLife.Domain
 
         public static readonly int MinSize = 1;
         public static readonly int MaxSize = 150;
+        private int _rows = MinSize;
+        private int _cols = MinSize;
 
-        int _rows = MinSize;
-        int _cols = MinSize;
-
-        public PlayField() { }
+        public PlayField() {}
 
         public PlayField(int rowCount, int colCount)
         {

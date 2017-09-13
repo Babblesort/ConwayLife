@@ -1,4 +1,4 @@
-﻿namespace ConwayLifeWinForms
+﻿namespace ConwayLife.UI
 {
     partial class frmLifeGame
     {
@@ -49,7 +49,7 @@
             this.btnPauseGame = new System.Windows.Forms.Button();
             this.btnStepGame = new System.Windows.Forms.Button();
             this.btnClearGame = new System.Windows.Forms.Button();
-            this.pnlField = new ConwayLifeWinForms.LifeGamePanel();
+            this.pnlField = new LifeGamePanel();
             ((System.ComponentModel.ISupportInitialize)(this.numGenerations)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCols)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numRows)).BeginInit();

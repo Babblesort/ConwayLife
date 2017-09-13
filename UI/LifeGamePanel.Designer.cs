@@ -1,4 +1,4 @@
-﻿namespace ConwayLifeWinForms
+﻿namespace ConwayLife.UI
 {
     sealed partial class LifeGamePanel
     {

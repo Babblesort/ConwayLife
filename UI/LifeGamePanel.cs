@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace ConwayLifeWinForms
+namespace ConwayLife.UI
 {
     public sealed partial class LifeGamePanel : Panel
     {

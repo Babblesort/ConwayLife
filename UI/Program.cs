@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace ConwayLifeWinForms
+namespace ConwayLife.UI
 {
     static class Program
     {

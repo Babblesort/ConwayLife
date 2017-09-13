@@ -59,15 +59,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\GameOptionsTests.cs" />
-    <Compile Include="Tests\LifeGameTests.cs" />
-    <Compile Include="Tests\LifeRulesTests.cs" />
-    <Compile Include="Tests\PlayFieldTests.cs" />
+    <Compile Include="GameOptionsTests.cs" />
+    <Compile Include="LifeGameTests.cs" />
+    <Compile Include="LifeRulesTests.cs" />
+    <Compile Include="PlayFieldTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ConwayLife.Domain\ConwayLife.Domain.csproj">
+    <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{fcde064b-cbaf-4ae4-9e8e-4e9f3a3c4c8a}</Project>
-      <Name>ConwayLife.Domain</Name>
+      <Name>Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

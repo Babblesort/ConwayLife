@@ -1,4 +1,4 @@
-﻿namespace ConwayLife.Domain.Enum
+﻿namespace ConwayLife.Domain
 {
     public enum RunState
     {

@@ -1,12 +1,11 @@
-﻿using ConwayLife.Domain;
-using ConwayLife.Domain.Enum;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows.Forms;
+using ConwayLife.Domain;
 
-namespace ConwayLifeWinForms
+namespace ConwayLife.UI
 {
     public partial class frmLifeGame : Form
     {

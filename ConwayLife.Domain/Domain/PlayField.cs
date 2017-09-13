@@ -5,7 +5,7 @@ namespace ConwayLife.Domain
     public class PlayField
     {
         public event EventHandler<PlayFieldSizeChangedEventArgs> PlayFieldSizeChanged;
-    
+
         public static readonly int MinSize = 1;
         public static readonly int MaxSize = 150;
 
@@ -22,23 +22,20 @@ namespace ConwayLife.Domain
 
         public int Rows
         {
-            get 
-            { 
-                return _rows; 
+            get
+            {
+                return _rows;
             }
             set
             {
-                if (value >= MinSize && value <= MaxSize)
-                {
-                    _rows = value;
-                    OnPlayFieldSizeChanged(new PlayFieldSizeChangedEventArgs { Rows = _rows, Cols = Cols });
-                }
-                else
+                if (value < MinSize || value > MaxSize)
                 {
                     throw new ArgumentOutOfRangeException(
-                        string.Format("Rows value must be between {0} and {1}.", 
-                                        MinSize, MaxSize));
+                        string.Format("Rows value must be between {0} and {1} inclusive.", MinSize, MaxSize));
                 }
+
+                _rows = value;
+                OnPlayFieldSizeChanged(new PlayFieldSizeChangedEventArgs { Rows = _rows, Cols = Cols });
             }
         }
 
@@ -50,20 +47,14 @@ namespace ConwayLife.Domain
             }
             set
             {
-                if (value >= MinSize && value <= MaxSize)
-                {
-                    _cols = value;
-                    var sizeChangedArgs = new PlayFieldSizeChangedEventArgs();
-                    sizeChangedArgs.Rows = this.Rows;
-                    sizeChangedArgs.Cols = _cols;
-                    OnPlayFieldSizeChanged(sizeChangedArgs);
-                }
-                else
+                if (value < MinSize || value > MaxSize)
                 {
                     throw new ArgumentOutOfRangeException(
-                        string.Format("Cols value must be between {0} and {1}.",
-                                        MinSize, MaxSize));
+                        string.Format("Cols value must be between {0} and {1} inclusive.", MinSize, MaxSize));
                 }
+
+                _cols = value;
+                OnPlayFieldSizeChanged(new PlayFieldSizeChangedEventArgs { Rows = Rows, Cols = _cols });
             }
         }
 
@@ -79,6 +70,5 @@ namespace ConwayLife.Domain
         {
             PlayFieldSizeChanged?.Invoke(this, e);
         }
-
     }
 }

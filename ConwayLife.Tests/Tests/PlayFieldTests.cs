@@ -19,6 +19,22 @@ namespace ConwayLife.Tests
 
         [Test]
         [ExpectedException("System.ArgumentOutOfRangeException")]
+        public void PlayFieldColumnsTooLarge()
+        {
+            int i = PlayField.MaxSize + 1;
+            testPlayField = new PlayField(1, i);
+        }
+
+        [Test]
+        [ExpectedException("System.ArgumentOutOfRangeException")]
+        public void PlayFieldRowsTooLarge()
+        {
+            int i = PlayField.MaxSize + 1;
+            testPlayField = new PlayField(i, 1);
+        }
+
+        [Test]
+        [ExpectedException("System.ArgumentOutOfRangeException")]
         public void PlayFieldDimensionTooLarge()
         {
             int i = PlayField.MaxSize + 1;

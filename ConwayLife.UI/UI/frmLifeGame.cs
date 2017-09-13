@@ -277,8 +277,8 @@ namespace ConwayLifeWinForms
 
         void GameGenerationResolvedHandler(object sender, GenerationResolvedEventArgs e)
         {
-            SetGenerationText(e.generation.ToString("N0"));
-            SetGamePanelCells(e.cellStates);
+            SetGenerationText(e.Generation.ToString("N0"));
+            SetGamePanelCells(e.CellStates);
         }
 
         private void SetGenerationText(string value)

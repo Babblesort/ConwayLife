@@ -4,15 +4,15 @@ namespace ConwayLife.Domain
 {
     public class GameRunOptions
     {
-        public static int MinGenerations = 1;
-        public static int MaxGenerations = 10000;
-        int _allowedGenerations = 200;
+        public static readonly int MinGenerations = 1;
+        public static readonly int MaxGenerations = 10000;
+        private int _allowedGenerations = 200;
 
-        public static int MinDelayMilliseconds = 50;
-        public static int MaxDelayMilliseconds = 5000;
-        int _delayStep = 250;
+        public static readonly int MinDelayMilliseconds = 50;
+        public static readonly int MaxDelayMilliseconds = 5000;
+        private int _delayStep = 250;
 
-        bool _haltOnExtinction = true;
+        public bool HaltOnExtinction { get; set; } = true;
 
         public int AllowedGenerations
         {
@@ -22,17 +22,18 @@ namespace ConwayLife.Domain
             }
             set
             {
-                if (value >= MinGenerations && value <= MaxGenerations)
+                if (value < MinGenerations)
                 {
-                    _allowedGenerations = value;
+                    throw new ArgumentOutOfRangeException("AllowedGenerations",
+                        String.Format("Must be greater or equal to {0}.", MinGenerations));
                 }
-                else
+                if (value > MaxGenerations)
                 {
-                    throw new ArgumentOutOfRangeException(
-                        String.Format("AllowedGenerations must be between {0} and {1}.",
-                                        MinGenerations,
-                                        MaxGenerations));
+                    throw new ArgumentOutOfRangeException("AllowedGenerations",
+                        String.Format("Must be less than or equal to {0}.", MaxGenerations));
                 }
+
+                _allowedGenerations = value;
             }
         }
 
@@ -44,32 +45,19 @@ namespace ConwayLife.Domain
             }
             set
             {
-                if (value >= MinDelayMilliseconds && value <= MaxDelayMilliseconds)
+                if (value < MinDelayMilliseconds)
                 {
-                    _delayStep = value;
+                    throw new ArgumentOutOfRangeException("DelayStepMilliseconds",
+                        String.Format("Must be greater or equal to {0}.", MinDelayMilliseconds));
                 }
-                else
+                if (value > MaxDelayMilliseconds)
                 {
-                    throw new ArgumentOutOfRangeException(
-                        String.Format("DelayStep must be between {0} and {1}.",
-                                        MinDelayMilliseconds,
-                                        MaxDelayMilliseconds));
+                    throw new ArgumentOutOfRangeException("DelayStepMilliseconds",
+                        String.Format("Must be less than or equal to {0}.", MaxDelayMilliseconds));
                 }
+
+                _delayStep = value;
             }
         }
-
-        public bool HaltOnExtinction
-        {
-            get
-            {
-                return _haltOnExtinction;
-            }
-            set
-            {
-                _haltOnExtinction = value;
-            }
-        }
-
-
     }
 }

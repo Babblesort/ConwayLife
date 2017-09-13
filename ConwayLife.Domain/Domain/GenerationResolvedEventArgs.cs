@@ -5,7 +5,7 @@ namespace ConwayLife.Domain
 {
     public class GenerationResolvedEventArgs : EventArgs
     {
-        public List<bool> cellStates { get; set; }
-        public int generation { get; set; }
+        public List<bool> CellStates { get; set; }
+        public int Generation { get; set; }
     }
 }

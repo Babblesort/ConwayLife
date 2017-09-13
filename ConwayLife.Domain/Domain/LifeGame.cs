@@ -65,7 +65,7 @@ namespace ConwayLife.Domain
                 Extinction = true;
             }
 
-            OnGenerationResolved(new GenerationResolvedEventArgs { cellStates = _currentCells, generation = Generation });
+            OnGenerationResolved(new GenerationResolvedEventArgs { CellStates = _currentCells, Generation = Generation });
         }
 
         protected virtual void OnGenerationResolved(GenerationResolvedEventArgs e)

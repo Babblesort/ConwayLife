@@ -14,47 +14,43 @@ namespace ConwayLife.Domain
 
         public LifeRules()
         {
-            SurvivalNeighborCounts = new List<int>() { 2, 3 };
-            BirthNeighborCounts = new List<int>() { 3 };
+            SurvivalNeighborCounts = new List<int> { 2, 3 };
+            BirthNeighborCounts = new List<int> { 3 };
         }
 
         public LifeRules(List<int> surviveCounts, List<int> birthCounts)
         {
-            if (surviveCounts != null && birthCounts != null)
+            if (surviveCounts == null)
             {
-                if (ValidRuleCounts(surviveCounts, birthCounts))
-                {
-                    SurvivalNeighborCounts = new List<int>(surviveCounts);
-                    BirthNeighborCounts = new List<int>(birthCounts);
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException(
-                        string.Format("Neighbor counts for surviveCounts and birthCounts lists must be between {0} and {1}.",
-                                        MinNeighborCount,
-                                        MaxNeighborCount));
-                }
+                throw new ArgumentNullException("surviveCounts", "List cannot be null");
             }
-            else
+
+            if (birthCounts == null)
             {
-                throw new ArgumentNullException("surviveCounts and birthCounts lists cannot be null.");
+                throw new ArgumentNullException("birthCounts", "List cannot be null");
             }
+
+            if (InvalidNeighborCount(surviveCounts))
+            {
+                throw new ArgumentOutOfRangeException("surviveCounts",
+                    string.Format("surviveCounts list must have at least one member and each number must be between {0} and {1} inclusive.",
+                                    MinNeighborCount, MaxNeighborCount));
+            }
+
+            if (InvalidNeighborCount(birthCounts))
+            {
+                throw new ArgumentOutOfRangeException("birthCounts",
+                    string.Format("birthCounts list must have at least one member and each number must be between {0} and {1} inclusive.",
+                                    MinNeighborCount, MaxNeighborCount));
+            }
+
+            SurvivalNeighborCounts = new List<int>(surviveCounts);
+            BirthNeighborCounts = new List<int>(birthCounts);
         }
 
-        private bool ValidRuleCounts(List<int> surviveCounts, List<int> birthCounts)
+        private bool InvalidNeighborCount(IList<int> list)
         {
-            if (surviveCounts.Where(c => InvalidNeighborCount(c)).Count() > 0 ||
-                birthCounts.Where(c => InvalidNeighborCount(c)).Count() > 0)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private bool InvalidNeighborCount(int count)
-        {
-            return (count < MinNeighborCount || count > MaxNeighborCount);
+            return list.Count() == 0 || list.Any(i => i > MaxNeighborCount || i < MinNeighborCount);
         }
 
     }

@@ -16,6 +16,7 @@ namespace ConwayLife.UI
 
         private float CellHeight => RowsCount > 0 ? (float)(Height - 5) / RowsCount : Height;
         private float CellWidth => ColsCount > 0 ? (float)(Width - 5) / ColsCount : Width;
+        private int LiveCellsCount => CellStates.Select(c => c).Count();
 
         public LifeGamePanel()
         {
@@ -32,17 +33,17 @@ namespace ConwayLife.UI
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            var cells = new RectangleF[CellStates.Select(c => c).Count()];
+            var cells = new RectangleF[LiveCellsCount];
             var cellIndex = 0;
-            for (var i=0; i < RowsCount; i++)
+            for (var r=0; r < RowsCount; r++)
             {
-                e.Graphics.DrawLine(GridLinePen, 0, i * CellHeight, ColsCount * CellWidth, i * CellHeight);
-                for (var j=0; j < ColsCount; j++)
+                e.Graphics.DrawLine(GridLinePen, 0, r * CellHeight, ColsCount * CellWidth, r * CellHeight);
+                for (var c=0; c < ColsCount; c++)
                 {
-                    e.Graphics.DrawLine(GridLinePen, j * CellWidth, 0, j * CellWidth, RowsCount * CellHeight);
-                    if (CellStates.Any() && CellStates[(i * ColsCount) + j])
+                    e.Graphics.DrawLine(GridLinePen, c * CellWidth, 0, c * CellWidth, RowsCount * CellHeight);
+                    if (CellStates.Any() && CellStates[(r * ColsCount) + c])
                     {
-                        cells[cellIndex++] = new RectangleF(j * CellWidth, i * CellHeight, CellWidth, CellHeight);
+                        cells[cellIndex++] = new RectangleF(c * CellWidth, r * CellHeight, CellWidth, CellHeight);
                     }
                 }
             }

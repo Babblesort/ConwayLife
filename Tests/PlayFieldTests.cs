@@ -102,5 +102,39 @@ namespace ConwayLife.Tests
             Assert.AreEqual(expectedIndices[6], field.BottomNeighborIndex(row, col));
             Assert.AreEqual(expectedIndices[7], field.BottomRightNeighborIndex(row, col));
         }
+
+        [Test]
+        public void RaisesEvent_PlayFieldSizeChanged_OnColsSet()
+        {
+            var field = new PlayField(1, 1);
+            var wasCalled = false;
+            field.PlayFieldSizeChanged += (sender, e) =>
+            {
+                wasCalled = true;
+                Assert.IsInstanceOf<PlayField>(sender);
+                Assert.AreEqual(1, e.Rows);
+                Assert.AreEqual(2, e.Cols);
+            };
+
+            field.Cols = 2;
+            Assert.IsTrue(wasCalled);
+        }
+
+        [Test]
+        public void RaisesEvent_PlayFieldSizeChanged_OnRowsSet()
+        {
+            var field = new PlayField(1, 1);
+            var wasCalled = false;
+            field.PlayFieldSizeChanged += (sender, e) =>
+            {
+                wasCalled = true;
+                Assert.IsInstanceOf<PlayField>(sender);
+                Assert.AreEqual(2, e.Rows);
+                Assert.AreEqual(1, e.Cols);
+            };
+
+            field.Rows = 2;
+            Assert.IsTrue(wasCalled);
+        }
     }
 }

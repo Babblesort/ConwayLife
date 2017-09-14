@@ -7,7 +7,7 @@ namespace ConwayLife.Tests
     public class LifeGameTests
     {
         private readonly LifeRules _rules = new LifeRules();
-        private readonly PlayField _field = new PlayField();
+        private readonly PlayField _field = new PlayField(1, 1);
 
         [Test]
         [ExpectedException("System.ArgumentNullException")]

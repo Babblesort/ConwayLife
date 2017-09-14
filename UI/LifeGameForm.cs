@@ -35,10 +35,8 @@ namespace ConwayLife.UI
             numDelay.DataBindings.Add(new Binding("Value", _options, "DelayStepMilliseconds", true, DataSourceUpdateMode.OnPropertyChanged));
 
             pnlField.CellStates = new List<bool>();
-            _field = new PlayField();
+            _field = new PlayField(50, 50);
             _field.PlayFieldSizeChanged += field_PlayFieldSizeChanged;
-            _field.Rows = 50;
-            _field.Cols = 50;
 
             tip.SetToolTip(numRows, "Number of rows on the play field");
             numRows.Minimum = PlayField.MinSize;

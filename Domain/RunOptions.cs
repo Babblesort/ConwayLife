@@ -2,7 +2,7 @@
 
 namespace ConwayLife.Domain
 {
-    public class GameRunOptions
+    public class RunOptions
     {
         public static readonly int MinGenerations = 1;
         public static readonly int MaxGenerations = 10000;

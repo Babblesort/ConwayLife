@@ -59,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="GameOptionsTests.cs" />
+    <Compile Include="RunOptionsTests.cs" />
     <Compile Include="LifeGameTests.cs" />
     <Compile Include="LifeRulesTests.cs" />
     <Compile Include="PlayFieldTests.cs" />

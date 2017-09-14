@@ -4,14 +4,14 @@ using NUnit.Framework;
 namespace ConwayLife.Tests
 {
     [TestFixture]
-    public class GameOptionsTests
+    public class RunOptionsTests
     {
-        private GameRunOptions _options;
+        private RunOptions _options;
 
         [SetUp]
         public void Init()
         {
-            _options = new GameRunOptions();
+            _options = new RunOptions();
         }
 
         [TearDown]
@@ -45,7 +45,7 @@ namespace ConwayLife.Tests
         [ExpectedException("System.ArgumentOutOfRangeException")]
         public void MinGenerationsExceeded()
         {
-            var i = GameRunOptions.MinGenerations - 1;
+            var i = RunOptions.MinGenerations - 1;
             _options.AllowedGenerations = i;
         }
 
@@ -53,7 +53,7 @@ namespace ConwayLife.Tests
         [ExpectedException("System.ArgumentOutOfRangeException")]
         public void MaxGenerationsExceeded()
         {
-            var i = GameRunOptions.MaxGenerations + 1;
+            var i = RunOptions.MaxGenerations + 1;
             _options.AllowedGenerations = i;
         }
 
@@ -61,7 +61,7 @@ namespace ConwayLife.Tests
         [ExpectedException("System.ArgumentOutOfRangeException")]
         public void MinDelayExceeded()
         {
-            var i = GameRunOptions.MinDelayMilliseconds - 1;
+            var i = RunOptions.MinDelayMilliseconds - 1;
             _options.DelayStepMilliseconds = i;
         }
 
@@ -69,7 +69,7 @@ namespace ConwayLife.Tests
         [ExpectedException("System.ArgumentOutOfRangeException")]
         public void MaxDelayExceeded()
         {
-            var i = GameRunOptions.MaxDelayMilliseconds + 1;
+            var i = RunOptions.MaxDelayMilliseconds + 1;
             _options.DelayStepMilliseconds = i;
         }
     }

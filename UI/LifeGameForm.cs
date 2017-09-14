@@ -9,7 +9,7 @@ namespace ConwayLife.UI
 {
     public partial class LifeGameForm : Form
     {
-        private readonly GameRunOptions _options;
+        private readonly RunOptions _options;
         private readonly PlayField _field;
         private readonly LifeRules _rules;
         private LifeGame _game;
@@ -23,15 +23,15 @@ namespace ConwayLife.UI
             InitializeComponent();
 
             var tip = new ToolTip();
-            _options = new GameRunOptions();
+            _options = new RunOptions();
             tip.SetToolTip(numGenerations, "Maximum number of generations for run");
-            numGenerations.Minimum = GameRunOptions.MinGenerations;
-            numGenerations.Maximum = GameRunOptions.MaxGenerations;
+            numGenerations.Minimum = RunOptions.MinGenerations;
+            numGenerations.Maximum = RunOptions.MaxGenerations;
             numGenerations.DataBindings.Add(new Binding("Value", _options, "AllowedGenerations", true, DataSourceUpdateMode.OnPropertyChanged));
 
             tip.SetToolTip(numDelay, "Milliseconds of delay between generations");
-            numDelay.Minimum = GameRunOptions.MinDelayMilliseconds;
-            numDelay.Maximum = GameRunOptions.MaxDelayMilliseconds;
+            numDelay.Minimum = RunOptions.MinDelayMilliseconds;
+            numDelay.Maximum = RunOptions.MaxDelayMilliseconds;
             numDelay.DataBindings.Add(new Binding("Value", _options, "DelayStepMilliseconds", true, DataSourceUpdateMode.OnPropertyChanged));
 
             pnlField.CellStates = new List<bool>();

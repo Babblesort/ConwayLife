@@ -39,7 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameRunOptions.cs" />
+    <Compile Include="RunOptions.cs" />
     <Compile Include="GenerationResolvedEventArgs.cs" />
     <Compile Include="LifeGame.cs" />
     <Compile Include="LifeRules.cs" />

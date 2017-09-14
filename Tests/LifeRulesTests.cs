@@ -11,10 +11,21 @@ namespace ConwayLife.Tests
         private LifeRules _rules;
 
         [Test]
-        public void ListsMatchConstructors()
+        public void EmptyConstructorDefaultsRuleLists()
         {
-            var surviveList = new List<int>() { 2, 3 };
-            var birthList = new List<int>() { 3 };
+            var surviveList = new List<int> { 2, 3 };
+            var birthList = new List<int> { 3 };
+            _rules = new LifeRules();
+
+            Assert.AreEqual(true, surviveList.SequenceEqual(_rules.SurvivalNeighborCounts));
+            Assert.AreEqual(true, birthList.SequenceEqual(_rules.BirthNeighborCounts));
+        }
+
+        [Test]
+        public void ParametizedConstructorSetsRuleLists()
+        {
+            var surviveList = new List<int> { 2, 3 };
+            var birthList = new List<int> { 3 };
             _rules = new LifeRules(surviveList, birthList);
 
             Assert.AreEqual(true, surviveList.SequenceEqual(_rules.SurvivalNeighborCounts));

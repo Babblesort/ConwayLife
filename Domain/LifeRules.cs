@@ -12,10 +12,8 @@ namespace ConwayLife.Domain
         public List<int> SurvivalNeighborCounts { get; }
         public List<int> BirthNeighborCounts { get; }
 
-        public LifeRules()
+        public LifeRules() : this(new List<int> { 2, 3 }, new List<int> { 3 })
         {
-            SurvivalNeighborCounts = new List<int> { 2, 3 };
-            BirthNeighborCounts = new List<int> { 3 };
         }
 
         public LifeRules(List<int> surviveCounts, List<int> birthCounts)

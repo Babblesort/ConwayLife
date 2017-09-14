@@ -68,6 +68,54 @@ namespace ConwayLife.Domain
             return index;
         }
 
+        public int TopLeftNeighborIndex(int row, int col)
+        {
+            if (row < 1 || col < 1) return -1;
+            return CellIndex(row - 1, col - 1);
+        }
+
+        public int TopNeighborIndex(int row, int col)
+        {
+            if (row < 1) return -1;
+            return CellIndex(row - 1, col);
+        }
+
+        public int TopRightNeighborIndex(int row, int col)
+        {
+            if (row < 1 || col >= Cols - 1) return -1;
+            return CellIndex(row - 1, col + 1);
+        }
+
+        public int LeftNeighborIndex(int row, int col)
+        {
+            if (col < 1) return -1;
+            return CellIndex(row, col - 1);
+        }
+
+        public int RightNeighborIndex(int row, int col)
+        {
+            if (col >= Cols - 1) return -1;
+            return CellIndex(row, col + 1);
+        }
+
+        public int BottomLeftNeighborIndex(int row, int col)
+        {
+            if (row >= Rows - 1 || col < 1) return -1;
+            return CellIndex(row + 1, col - 1);
+        }
+
+        public int BottomNeighborIndex(int row, int col)
+        {
+            if (row >= Rows - 1) return -1;
+            return CellIndex(row + 1, col);
+        }
+
+        public int BottomRightNeighborIndex(int row, int col)
+        {
+            if (row >= Rows - 1 || col >= Cols - 1) return -1;
+            return CellIndex(row + 1, col + 1);
+        }
+
         protected virtual void OnPlayFieldSizeChanged(PlayFieldSizeChangedEventArgs e)
         {
             PlayFieldSizeChanged?.Invoke(this, e);

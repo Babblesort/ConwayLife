@@ -46,7 +46,7 @@ namespace ConwayLife.Domain
             BirthNeighborCounts = birthCounts;
         }
 
-        private static bool InvalidNeighborCount(IList<int> list)
+        private static bool InvalidNeighborCount(List<int> list)
         {
             return !list.Any() || list.Any(i => i > MaxNeighborCount || i < MinNeighborCount);
         }

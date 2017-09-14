@@ -25,14 +25,14 @@ namespace ConwayLife.Tests
         [ExpectedException("System.ArgumentNullException")]
         public void NullSurviveList()
         {
-            var unused = new LifeRules(null, new List<int>() { 3 });
+            var unused = new LifeRules(null, new List<int> { 3 });
         }
 
         [Test]
         [ExpectedException("System.ArgumentNullException")]
         public void NullBirthList()
         {
-            var unused = new LifeRules(new List<int>() { 2, 3 }, null);
+            var unused = new LifeRules(new List<int> { 2, 3 }, null);
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace ConwayLife.Tests
         public void MinNeighborsExceeded()
         {
             var i = LifeRules.MinNeighborCount - 1;
-            var unused = new LifeRules(new List<int>() { i, 2 }, new List<int>() { 3 });
+            var unused = new LifeRules(new List<int> { i, 2 }, new List<int> { 3 });
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace ConwayLife.Tests
         public void MaxNeighborsExceeded()
         {
             var i = LifeRules.MaxNeighborCount + 1;
-            var unused = new LifeRules(new List<int>() { 2, 3 }, new List<int>() { i });
+            var unused = new LifeRules(new List<int> { 2, 3 }, new List<int> { i });
         }
 
     }

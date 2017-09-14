@@ -81,77 +81,26 @@ namespace ConwayLife.Tests
             field.CellIndex(row: 1, col: 2);
         }
 
-        [Test]
-        public void TopLeftNeighborIndex()
+        [TestCase(0, 0, -1, -1, -1, -1, 1, -1, 3, 4)]
+        [TestCase(0, 1, -1, -1, -1, 0, 2, 3, 4, 5)]
+        [TestCase(0, 2, -1, -1, -1, 1, -1, 4, 5, -1)]
+        [TestCase(1, 0, -1, 0, 1, -1, 4, -1, 6, 7)]
+        [TestCase(1, 1, 0, 1, 2, 3, 5, 6, 7, 8)]
+        [TestCase(1, 2, 1, 2, -1, 4, -1, 7, 8, -1)]
+        [TestCase(2, 0, -1, 3, 4, -1, 7, -1, -1, -1)]
+        [TestCase(2, 1, 3, 4, 5, 6, 8, -1, -1, -1)]
+        [TestCase(2, 2, 4, 5, -1, 7, -1, -1, -1, -1)]
+        public void NeighborIndices(int row, int col, params int[] expectedIndices)
         {
-            var field = new PlayField(2, 2);
-            Assert.AreEqual(-1, field.TopLeftNeighborIndex(row: 0, col: 0));
-            Assert.AreEqual(-1, field.TopLeftNeighborIndex(row: 1, col: 0));
-            Assert.AreEqual(0, field.TopLeftNeighborIndex(row: 1, col: 1));
+            var field = new PlayField(3, 3);
+            Assert.AreEqual(expectedIndices[0], field.TopLeftNeighborIndex(row, col));
+            Assert.AreEqual(expectedIndices[1], field.TopNeighborIndex(row, col));
+            Assert.AreEqual(expectedIndices[2], field.TopRightNeighborIndex(row, col));
+            Assert.AreEqual(expectedIndices[3], field.LeftNeighborIndex(row, col));
+            Assert.AreEqual(expectedIndices[4], field.RightNeighborIndex(row, col));
+            Assert.AreEqual(expectedIndices[5], field.BottomLeftNeighborIndex(row, col));
+            Assert.AreEqual(expectedIndices[6], field.BottomNeighborIndex(row, col));
+            Assert.AreEqual(expectedIndices[7], field.BottomRightNeighborIndex(row, col));
         }
-
-        [Test]
-        public void TopNeighborIndex()
-        {
-            var field = new PlayField(2, 2);
-            Assert.AreEqual(-1, field.TopNeighborIndex(row: 0, col: 0));
-            Assert.AreEqual(0, field.TopNeighborIndex(row: 1, col: 0));
-        }
-
-        [Test]
-        public void TopRightNeighborIndex()
-        {
-            var field = new PlayField(2, 2);
-            Assert.AreEqual(-1, field.TopRightNeighborIndex(row: 0, col: 1));
-            Assert.AreEqual(-1, field.TopRightNeighborIndex(row: 1, col: 1));
-            Assert.AreEqual(1, field.TopRightNeighborIndex(row: 1, col: 0));
-        }
-
-        [Test]
-        public void LeftNeighborIndex()
-        {
-            var field = new PlayField(2, 2);
-            Assert.AreEqual(-1, field.LeftNeighborIndex(row: 0, col: 0));
-            Assert.AreEqual(-1, field.LeftNeighborIndex(row: 1, col: 0));
-            Assert.AreEqual(0, field.LeftNeighborIndex(row: 0, col: 1));
-        }
-
-        [Test]
-        public void RightNeighborIndex()
-        {
-            var field = new PlayField(2, 2);
-            Assert.AreEqual(-1, field.RightNeighborIndex(row: 0, col: 1));
-            Assert.AreEqual(-1, field.RightNeighborIndex(row: 1, col: 1));
-            Assert.AreEqual(1, field.RightNeighborIndex(row: 0, col: 0));
-        }
-
-        [Test]
-        public void BottomLeftNeighborIndex()
-        {
-            var field = new PlayField(2, 2);
-            Assert.AreEqual(-1, field.BottomLeftNeighborIndex(row: 0, col: 0));
-            Assert.AreEqual(-1, field.BottomLeftNeighborIndex(row: 1, col: 0));
-            Assert.AreEqual(2, field.BottomLeftNeighborIndex(row: 0, col: 1));
-        }
-
-        [Test]
-        public void BottomNeighborIndex()
-        {
-            var field = new PlayField(2, 2);
-            Assert.AreEqual(-1, field.BottomNeighborIndex(row: 1, col: 0));
-            Assert.AreEqual(-1, field.BottomNeighborIndex(row: 1, col: 1));
-            Assert.AreEqual(2, field.BottomNeighborIndex(row: 0, col: 0));
-        }
-
-        [Test]
-        public void BottomRightNeighborIndex()
-        {
-            var field = new PlayField(2, 2);
-            Assert.AreEqual(-1, field.BottomRightNeighborIndex(row: 1, col: 0));
-            Assert.AreEqual(-1, field.BottomRightNeighborIndex(row: 1, col: 1));
-            Assert.AreEqual(-1, field.BottomRightNeighborIndex(row: 0, col: 1));
-            Assert.AreEqual(3, field.BottomRightNeighborIndex(row: 0, col: 0));
-        }
-
     }
 }

@@ -57,6 +57,17 @@ namespace ConwayLife.Domain
 
         public int TotalCellCount => Rows * Cols;
 
+        public int CellIndex(int row, int col)
+        {
+            if (row < 0) throw new ArgumentOutOfRangeException("row must be zero or greater");
+            if (col < 0) throw new ArgumentOutOfRangeException("col must be zero or greater");
+
+            var index = row * Cols + col;
+            if(index > TotalCellCount - 1) throw new ArgumentOutOfRangeException("index is outside play field");
+
+            return index;
+        }
+
         protected virtual void OnPlayFieldSizeChanged(PlayFieldSizeChangedEventArgs e)
         {
             PlayFieldSizeChanged?.Invoke(this, e);

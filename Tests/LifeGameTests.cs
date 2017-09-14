@@ -22,6 +22,5 @@ namespace ConwayLife.Tests
         {
             var unused = new LifeGame(_rules, null);
         }
-
     }
 }

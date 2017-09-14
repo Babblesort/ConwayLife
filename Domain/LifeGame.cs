@@ -51,7 +51,7 @@ namespace ConwayLife.Domain
                     {
                         for (var col=0; col < _field.Cols; col++)
                         {
-                            var i = IndexOfRowCol(row, col, _field.Cols);
+                            var i = _field.CellIndex(row, col);
                             var neighborCount = GetLivingNeighborsCount(row, col);
                             _nextCells[i] = CellSurvives(_currentCells[i], neighborCount);
                         }
@@ -86,12 +86,6 @@ namespace ConwayLife.Domain
             return _currentCells.Any(c => c);
         }
 
-        private static int IndexOfRowCol(int row, int col, int colsCount)
-        {
-            // Convert a given row/column into a linear index
-            return (row * colsCount) + col;
-        }
-
         private int GetLivingNeighborsCount(int row, int col)
         {
             var count = 0;
@@ -105,49 +99,49 @@ namespace ConwayLife.Domain
             // Top Left Neighbor
             if (row > 0 && col > 0)
             {
-                count += IncrementIfAlive(_currentCells[IndexOfRowCol(row - 1, col - 1, _field.Cols)]);
+                count += IncrementIfAlive(_currentCells[_field.CellIndex(row - 1, col - 1)]);
             }
 
             // Top Neighbor
             if (row > 0)
             {
-                count += IncrementIfAlive(_currentCells[IndexOfRowCol(row - 1, col, _field.Cols)]);
+                count += IncrementIfAlive(_currentCells[_field.CellIndex(row - 1, col)]);
             }
 
             // Top Right Neighbor
             if (row > 0 && col < _field.Cols - 1)
             {
-                count += IncrementIfAlive(_currentCells[IndexOfRowCol(row - 1, col + 1, _field.Cols)]);
+                count += IncrementIfAlive(_currentCells[_field.CellIndex(row - 1, col + 1)]);
             }
 
             // Left Neighbor
             if (col > 0)
             {
-                count += IncrementIfAlive(_currentCells[IndexOfRowCol(row, col - 1, _field.Cols)]);
+                count += IncrementIfAlive(_currentCells[_field.CellIndex(row, col - 1)]);
             }
 
             // Right Neighbor
             if (col < _field.Cols - 1)
             {
-                count += IncrementIfAlive(_currentCells[IndexOfRowCol(row, col + 1, _field.Cols)]);
+                count += IncrementIfAlive(_currentCells[_field.CellIndex(row, col + 1)]);
             }
 
             // Bottom Left Neighbor
             if (row < _field.Rows - 1 && col > 0)
             {
-                count += IncrementIfAlive(_currentCells[IndexOfRowCol(row + 1, col - 1, _field.Cols)]);
+                count += IncrementIfAlive(_currentCells[_field.CellIndex(row + 1, col - 1)]);
             }
 
             // Bottom Neighbor
             if (row < _field.Rows - 1)
             {
-                count += IncrementIfAlive(_currentCells[IndexOfRowCol(row + 1, col, _field.Cols)]);
+                count += IncrementIfAlive(_currentCells[_field.CellIndex(row + 1, col)]);
             }
 
             // Bottom Right Neighbor
             if (row < _field.Rows - 1 && col < _field.Cols - 1)
             {
-                count += IncrementIfAlive(_currentCells[IndexOfRowCol(row + 1, col + 1, _field.Cols)]);
+                count += IncrementIfAlive(_currentCells[_field.CellIndex(row + 1, col + 1)]);
             }
 
             return count;

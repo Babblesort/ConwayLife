@@ -79,6 +79,8 @@ namespace ConwayLife.Domain
             return index;
         }
 
+        public int CellIndex(RowColTuple rowCol) => CellIndex(rowCol.Row, rowCol.Col);
+
         public RowColTuple CellRowCol(int index)
         {
             if (index < 0) throw new ArgumentOutOfRangeException("index must be zero or greater");

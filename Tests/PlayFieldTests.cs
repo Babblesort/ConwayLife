@@ -55,8 +55,28 @@ namespace ConwayLife.Tests
             var field = new PlayField(3, 3);
             Assert.AreEqual(0, field.CellIndex(row: 0, col: 0));
             Assert.AreEqual(1, field.CellIndex(row: 0, col: 1));
+            Assert.AreEqual(2, field.CellIndex(row: 0, col: 2));
+            Assert.AreEqual(3, field.CellIndex(row: 1, col: 0));
             Assert.AreEqual(4, field.CellIndex(row: 1, col: 1));
+            Assert.AreEqual(5, field.CellIndex(row: 1, col: 2));
+            Assert.AreEqual(6, field.CellIndex(row: 2, col: 0));
+            Assert.AreEqual(7, field.CellIndex(row: 2, col: 1));
             Assert.AreEqual(8, field.CellIndex(row: 2, col: 2));
+        }
+
+        [Test]
+        public void CellIndexByTuple()
+        {
+            var field = new PlayField(3, 3);
+            Assert.AreEqual(0, field.CellIndex(new RowColTuple(0, 0)));
+            Assert.AreEqual(1, field.CellIndex(new RowColTuple(0, 1)));
+            Assert.AreEqual(2, field.CellIndex(new RowColTuple(0, 2)));
+            Assert.AreEqual(3, field.CellIndex(new RowColTuple(1, 0)));
+            Assert.AreEqual(4, field.CellIndex(new RowColTuple(1, 1)));
+            Assert.AreEqual(5, field.CellIndex(new RowColTuple(1, 2)));
+            Assert.AreEqual(6, field.CellIndex(new RowColTuple(2, 0)));
+            Assert.AreEqual(7, field.CellIndex(new RowColTuple(2, 1)));
+            Assert.AreEqual(8, field.CellIndex(new RowColTuple(2, 2)));
         }
 
         [Test]

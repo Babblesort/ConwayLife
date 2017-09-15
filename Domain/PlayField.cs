@@ -57,16 +57,14 @@ namespace ConwayLife.Domain
 
         public int TotalCellCount => Rows * Cols;
 
-        public List<bool> FreshCells => new List<bool>(Enumerable.Repeat(false, TotalCellCount).ToList());
+        public List<bool> FreshCells => Enumerable.Repeat(false, TotalCellCount).ToList();
 
         public List<bool> RandomCells 
         {
             get
             {
                 var rnd = new Random();
-                return Enumerable.Range(1, TotalCellCount)
-                    .Select(x => rnd.Next(0, 100) > 66)
-                    .ToList();
+                return FreshCells.Select(x => rnd.Next(0, 100) > 66).ToList();
             }
         }
 

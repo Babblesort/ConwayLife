@@ -19,7 +19,7 @@ namespace ConwayLife.Domain
         {
             if (lifeRules == null)
             {
-                throw new ArgumentNullException(nameof(lifeRules),  "Attempt to create LifeGame with null LifeRules");
+                throw new ArgumentNullException(nameof(lifeRules), "Attempt to create LifeGame with null LifeRules");
             }
 
             if (playField == null)
@@ -64,79 +64,33 @@ namespace ConwayLife.Domain
         {
             GenerationResolvedHandler?.Invoke(this, e);
         }
-        
+
         private bool LiveCellsRemain => _cells.Any(c => c);
         private bool IsGenerationZero => Generation == 0;
 
         private int GetLivingNeighborsCount(int row, int col)
         {
             var count = 0;
-
-            // Check the eight positions around current cell for neighbor alive status
-
-            // 123
-            // 4 5
-            // 678
-            
-            // Top Left Neighbor
-            if (row > 0 && col > 0)
-            {
-                count += IncrementIfAlive(_cells[_field.TopLeftNeighborIndex(row, col)]);
-            }
-
-            // Top Neighbor
-            if (row > 0)
-            {
-                count += IncrementIfAlive(_cells[_field.TopNeighborIndex(row, col)]);
-            }
-
-            // Top Right Neighbor
-            if (row > 0 && col < _field.Cols - 1)
-            {
-                count += IncrementIfAlive(_cells[_field.TopRightNeighborIndex(row, col)]);
-            }
-
-            // Left Neighbor
-            if (col > 0)
-            {
-                count += IncrementIfAlive(_cells[_field.LeftNeighborIndex(row, col)]);
-            }
-
-            // Right Neighbor
-            if (col < _field.Cols - 1)
-            {
-                count += IncrementIfAlive(_cells[_field.RightNeighborIndex(row, col)]);
-            }
-
-            // Bottom Left Neighbor
-            if (row < _field.Rows - 1 && col > 0)
-            {
-                count += IncrementIfAlive(_cells[_field.BottomLeftNeighborIndex(row, col)]);
-            }
-
-            // Bottom Neighbor
-            if (row < _field.Rows - 1)
-            {
-                count += IncrementIfAlive(_cells[_field.BottomNeighborIndex(row, col)]);
-            }
-
-            // Bottom Right Neighbor
-            if (row < _field.Rows - 1 && col < _field.Cols - 1)
-            {
-                count += IncrementIfAlive(_cells[_field.BottomRightNeighborIndex(row, col)]);
-            }
-
+            count += CellCountAtIndex(_field.TopLeftNeighborIndex(row, col));
+            count += CellCountAtIndex(_field.TopNeighborIndex(row, col));
+            count += CellCountAtIndex(_field.TopRightNeighborIndex(row, col));
+            count += CellCountAtIndex(_field.LeftNeighborIndex(row, col));
+            count += CellCountAtIndex(_field.RightNeighborIndex(row, col));
+            count += CellCountAtIndex(_field.BottomLeftNeighborIndex(row, col));
+            count += CellCountAtIndex(_field.BottomNeighborIndex(row, col));
+            count += CellCountAtIndex(_field.BottomRightNeighborIndex(row, col));
             return count;
         }
 
-        private static int IncrementIfAlive(bool alive)
+        private int CellCountAtIndex(int index)
         {
-            return alive ? 1 : 0;
+            if (index < 0) return 0;
+            return _cells[index] ? 1 : 0;
         }
 
         private bool CellSurvives(bool alive, int livingNeighborCount)
         {
-            return (alive && (_rules.SurvivalNeighborCounts.Contains(livingNeighborCount))) || 
+            return (alive && (_rules.SurvivalNeighborCounts.Contains(livingNeighborCount))) ||
                    (!alive && (_rules.BirthNeighborCounts.Contains(livingNeighborCount)));
         }
     }

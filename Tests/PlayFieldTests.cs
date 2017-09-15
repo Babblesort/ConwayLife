@@ -1,4 +1,5 @@
-﻿using ConwayLife.Domain;
+﻿using System;
+using ConwayLife.Domain;
 using NUnit.Framework;
 using System.Linq;
 
@@ -57,6 +58,38 @@ namespace ConwayLife.Tests
             Assert.AreEqual(4, field.CellIndex(row: 1, col: 1));
             Assert.AreEqual(8, field.CellIndex(row: 2, col: 2));
         }
+
+        [Test]
+        public void CellRowCol()
+        {
+            var field = new PlayField(3, 3);
+            Assert.AreEqual(new RowColTuple(0, 0), field.CellRowCol(index: 0));
+            Assert.AreEqual(new RowColTuple(0, 1), field.CellRowCol(index: 1));
+            Assert.AreEqual(new RowColTuple(0, 2), field.CellRowCol(index: 2));
+            Assert.AreEqual(new RowColTuple(1, 0), field.CellRowCol(index: 3));
+            Assert.AreEqual(new RowColTuple(1, 1), field.CellRowCol(index: 4));
+            Assert.AreEqual(new RowColTuple(1, 2), field.CellRowCol(index: 5));
+            Assert.AreEqual(new RowColTuple(2, 0), field.CellRowCol(index: 6));
+            Assert.AreEqual(new RowColTuple(2, 1), field.CellRowCol(index: 7));
+            Assert.AreEqual(new RowColTuple(2, 2), field.CellRowCol(index: 8));
+        }
+
+        [Test]
+        [ExpectedException("System.ArgumentOutOfRangeException")]
+        public void CellRowCol_ThrowsOnIndexTooSmall()
+        {
+            var field = new PlayField(3, 3);
+            field.CellRowCol(-1);
+        }
+
+        [Test]
+        [ExpectedException("System.ArgumentOutOfRangeException")]
+        public void CellRowCol_ThrowsOnIndexTooLarge()
+        {
+            var field = new PlayField(3, 3);
+            field.CellRowCol(9);
+        }
+
 
         [Test]
         [ExpectedException("System.ArgumentOutOfRangeException")]

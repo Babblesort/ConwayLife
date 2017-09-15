@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RowColTuple.cs" />
     <Compile Include="RunOptions.cs" />
     <Compile Include="GenerationResolvedEventArgs.cs" />
     <Compile Include="LifeGame.cs" />

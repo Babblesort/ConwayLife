@@ -9,12 +9,11 @@ namespace ConwayLife.UI
     public partial class LifeGamePanel : Panel
     {
         public LifeGame Game { get; set; }
-        private List<bool> CellStates => Game?.Cells ?? new List<bool>();
-        private int RowsCount => Game?.Field.Rows ?? 0;
-        private int ColsCount => Game?.Field.Cols ?? 0;
-        private float CellHeight => RowsCount > 0 ? (float)(Height - 5) / RowsCount : Height;
-        private float CellWidth => ColsCount > 0 ? (float)(Width - 5) / ColsCount : Width;
-        private int LiveCellsCount => CellStates.Select(c => c).Count();
+        private int RowCount => Game.Field.Rows;
+        private int ColCount => Game.Field.Cols;
+        private float CellHeight => (float)(Height - 5) / RowCount;
+        private float CellWidth => (float)(Width - 5) / ColCount;
+        private int LiveCellsCount => Game.Cells.Select(c => c).Count();
         private static readonly Pen GridLinePen = Pens.LightGray;
         private static readonly Brush CellBrush = new SolidBrush(Color.FromArgb(180, Color.ForestGreen));
 
@@ -27,24 +26,25 @@ namespace ConwayLife.UI
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            var cells = new RectangleF[LiveCellsCount];
-            var cellIndex = 0;
-            for (var r=0; r < RowsCount; r++)
+            if (Game == null) return;
+
+            for (var r=0; r < RowCount; r++)
             {
-                e.Graphics.DrawLine(GridLinePen, 0, r * CellHeight, ColsCount * CellWidth, r * CellHeight);
-                for (var c=0; c < ColsCount; c++)
+                for (var c=0; c < ColCount; c++)
                 {
-                    e.Graphics.DrawLine(GridLinePen, c * CellWidth, 0, c * CellWidth, RowsCount * CellHeight);
-                    if (CellStates.Any() && CellStates[(r * ColsCount) + c])
-                    {
-                        cells[cellIndex++] = new RectangleF(c * CellWidth, r * CellHeight, CellWidth, CellHeight);
-                    }
+                    e.Graphics.DrawLine(GridLinePen, 0, r * CellHeight, ColCount * CellWidth, r * CellHeight);
+                    e.Graphics.DrawLine(GridLinePen, c * CellWidth, 0, c * CellWidth, RowCount * CellHeight);
                 }
             }
-            if (cells.Length > 0)
-            {
-                e.Graphics.FillRectangles(CellBrush, cells);
-            }
+
+            var cells = Game.Cells
+                .Select((c, index) => new { alive = c, index = index })
+                .Where(c => c.alive)
+                .Select(c => Game.Field.CellRowCol(c.index))
+                .Select(rowCol => new RectangleF(rowCol.Col * CellWidth, rowCol.Row * CellHeight, CellWidth, CellHeight))
+                .ToArray();
+
+            e.Graphics.FillRectangles(CellBrush, cells);
         }
     }
 }

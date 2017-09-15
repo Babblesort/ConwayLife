@@ -70,18 +70,18 @@ namespace ConwayLife.Domain
         private int GetLivingNeighborsCount(int row, int col)
         {
             var count = 0;
-            count += CellCountAtIndex(Field.TopLeftNeighborIndex(row, col));
-            count += CellCountAtIndex(Field.TopNeighborIndex(row, col));
-            count += CellCountAtIndex(Field.TopRightNeighborIndex(row, col));
-            count += CellCountAtIndex(Field.LeftNeighborIndex(row, col));
-            count += CellCountAtIndex(Field.RightNeighborIndex(row, col));
-            count += CellCountAtIndex(Field.BottomLeftNeighborIndex(row, col));
-            count += CellCountAtIndex(Field.BottomNeighborIndex(row, col));
-            count += CellCountAtIndex(Field.BottomRightNeighborIndex(row, col));
+            count += LiveCellCountAtIndex(Field.TopLeftNeighborIndex(row, col));
+            count += LiveCellCountAtIndex(Field.TopNeighborIndex(row, col));
+            count += LiveCellCountAtIndex(Field.TopRightNeighborIndex(row, col));
+            count += LiveCellCountAtIndex(Field.LeftNeighborIndex(row, col));
+            count += LiveCellCountAtIndex(Field.RightNeighborIndex(row, col));
+            count += LiveCellCountAtIndex(Field.BottomLeftNeighborIndex(row, col));
+            count += LiveCellCountAtIndex(Field.BottomNeighborIndex(row, col));
+            count += LiveCellCountAtIndex(Field.BottomRightNeighborIndex(row, col));
             return count;
         }
 
-        private int CellCountAtIndex(int index)
+        public int LiveCellCountAtIndex(int index)
         {
             if (index < 0) return 0;
             return Cells[index] ? 1 : 0;

@@ -79,6 +79,17 @@ namespace ConwayLife.Domain
             return index;
         }
 
+        public RowColTuple CellRowCol(int index)
+        {
+            if (index < 0) throw new ArgumentOutOfRangeException("index must be zero or greater");
+            if (index >= TotalCellCount) throw new ArgumentOutOfRangeException("index is outside play field");
+
+            var r = (int) (index / Cols);
+            var c = index % Cols;
+
+            return new RowColTuple(r, c);
+        }
+
         public int TopLeftNeighborIndex(int row, int col)
         {
             if (row < 1 || col < 1) return -1;

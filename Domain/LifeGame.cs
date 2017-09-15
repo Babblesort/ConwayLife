@@ -40,12 +40,12 @@ namespace ConwayLife.Domain
 
             if (Generation == 0)
             {
-                _currentCells = GetRandomizedCells();
+                _currentCells = _field.RandomCells;
             }
             else
             {
-                _nextCells = new List<bool>(Enumerable.Repeat(false, _currentCells.Count).ToList());
-                if (LiveCellsRemain())
+                _nextCells = _field.FreshCells;
+                if (LiveCellsRemain)
                 {
                     for (var row=0; row < _field.Rows; row++)
                     {
@@ -59,11 +59,9 @@ namespace ConwayLife.Domain
                 }
                 _currentCells = _nextCells;
             }
+
             Generation += 1;
-            if (!LiveCellsRemain())
-            {
-                Extinction = true;
-            }
+            Extinction = !LiveCellsRemain;
 
             OnGenerationResolved(new GenerationResolvedEventArgs { CellStates = _currentCells, Generation = Generation });
         }
@@ -73,18 +71,7 @@ namespace ConwayLife.Domain
             GenerationResolvedHandler?.Invoke(this, e);
         }
         
-        private List<bool> GetRandomizedCells()
-        {
-            var rnd = new Random();
-            return Enumerable.Range(1, _field.TotalCellCount)
-                .Select(x => rnd.Next(0, 100) > 66)
-                .ToList();
-        }
-
-        private bool LiveCellsRemain()
-        {
-            return _currentCells.Any(c => c);
-        }
+        private bool LiveCellsRemain => _currentCells.Any(c => c);
 
         private int GetLivingNeighborsCount(int row, int col)
         {

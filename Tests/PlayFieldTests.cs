@@ -1,5 +1,6 @@
 ﻿using ConwayLife.Domain;
 using NUnit.Framework;
+using System.Linq;
 
 namespace ConwayLife.Tests
 {
@@ -101,6 +102,21 @@ namespace ConwayLife.Tests
             Assert.AreEqual(expectedIndices[5], field.BottomLeftNeighborIndex(row, col));
             Assert.AreEqual(expectedIndices[6], field.BottomNeighborIndex(row, col));
             Assert.AreEqual(expectedIndices[7], field.BottomRightNeighborIndex(row, col));
+        }
+
+        [Test]
+        public void AllowsCreationOfFreshCells()
+        {
+            var cells = new PlayField(2, 2).FreshCells;
+            Assert.AreEqual(4, cells.Count);
+            Assert.IsTrue(cells.All(c => c == false));
+        }
+
+        [Test]
+        public void AllowsCreationOfRandomCells()
+        {
+            var cells = new PlayField(2, 2).RandomCells;
+            Assert.AreEqual(4, cells.Count);
         }
 
         [Test]

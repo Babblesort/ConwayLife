@@ -34,7 +34,6 @@ namespace ConwayLife.UI
             numDelay.Maximum = RunOptions.MaxDelayMilliseconds;
             numDelay.DataBindings.Add(new Binding("Value", _options, "DelayStepMilliseconds", true, DataSourceUpdateMode.OnPropertyChanged));
 
-            pnlField.CellStates = new List<bool>();
             _field = new PlayField(50, 50);
             _field.PlayFieldSizeChanged += field_PlayFieldSizeChanged;
 
@@ -83,8 +82,7 @@ namespace ConwayLife.UI
         {
             if (_game != null) return;
             _game = new LifeGame(_rules, _field);
-            pnlField.RowsCount = _field.Rows;
-            pnlField.ColsCount = _field.Cols;
+            pnlField.Game = _game;
             _game.GenerationResolvedHandler += GameGenerationResolvedHandler;
         }
 
@@ -113,11 +111,12 @@ namespace ConwayLife.UI
             }
             _runState = RunState.Idle;
             SetUiForGameState();
+            pnlField.Game = null;
+            pnlField.Refresh();
         }
 
         private void btnClearGame_Click(object sender, EventArgs e)
         {
-            ClearBoard();
             TerminateGame();
         }
 
@@ -133,9 +132,6 @@ namespace ConwayLife.UI
 
         private void field_PlayFieldSizeChanged(object sender, PlayFieldSizeChangedEventArgs e)
         {
-            ClearBoard();
-            pnlField.RowsCount = e.Rows;
-            pnlField.ColsCount = e.Cols;
             pnlField.Refresh();
         }
 
@@ -223,6 +219,7 @@ namespace ConwayLife.UI
                     btnClearGame.Enabled = true;
                     SetGameOptionControlsAvailable(available: true);
                     btnStepGame.Focus();
+                    SetGenerationText("0");
                     break;
                 }
                 case RunState.Step: 
@@ -260,12 +257,6 @@ namespace ConwayLife.UI
             numDelay.Enabled = available;
         }
 
-        private void ClearBoard()
-        {
-            pnlField.ClearBoard();
-            lblGeneration.Text = "n/a";
-        }
-
         private void GameGenerationResolvedHandler(object sender, GenerationResolvedEventArgs e)
         {
             SetGenerationText(e.Generation.ToString("N0"));
@@ -292,7 +283,6 @@ namespace ConwayLife.UI
             }
             else
             {
-                pnlField.CellStates = cells;
                 pnlField.Refresh();
             }
         }

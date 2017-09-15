@@ -226,7 +226,6 @@
             this.lblGeneration.Name = "lblGeneration";
             this.lblGeneration.Size = new System.Drawing.Size(92, 23);
             this.lblGeneration.TabIndex = 17;
-            this.lblGeneration.Text = "n/a";
             // 
             // btnPauseGame
             // 
@@ -270,11 +269,8 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlField.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pnlField.CellStates = null;
-            this.pnlField.ColsCount = 0;
             this.pnlField.Location = new System.Drawing.Point(15, 12);
             this.pnlField.Name = "pnlField";
-            this.pnlField.RowsCount = 0;
             this.pnlField.Size = new System.Drawing.Size(649, 483);
             this.pnlField.TabIndex = 19;
             // 

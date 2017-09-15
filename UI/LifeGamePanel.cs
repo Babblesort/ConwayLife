@@ -2,33 +2,27 @@
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using ConwayLife.Domain;
 
 namespace ConwayLife.UI
 {
-    public sealed partial class LifeGamePanel : Panel
+    public partial class LifeGamePanel : Panel
     {
-        private static readonly Pen GridLinePen = Pens.LightGray;
-        private static readonly Brush CellBrush = new SolidBrush(Color.FromArgb(180, Color.ForestGreen));
-
-        public List<bool> CellStates { get; set; }
-        public int RowsCount { get; set; }
-        public int ColsCount { get; set; }
-
+        public LifeGame Game { get; set; }
+        private List<bool> CellStates => Game?.Cells ?? new List<bool>();
+        private int RowsCount => Game?.Field.Rows ?? 0;
+        private int ColsCount => Game?.Field.Cols ?? 0;
         private float CellHeight => RowsCount > 0 ? (float)(Height - 5) / RowsCount : Height;
         private float CellWidth => ColsCount > 0 ? (float)(Width - 5) / ColsCount : Width;
         private int LiveCellsCount => CellStates.Select(c => c).Count();
+        private static readonly Pen GridLinePen = Pens.LightGray;
+        private static readonly Brush CellBrush = new SolidBrush(Color.FromArgb(180, Color.ForestGreen));
 
         public LifeGamePanel()
         {
             InitializeComponent();
             DoubleBuffered = true;
             ResizeRedraw = true;
-        }
-
-        public void ClearBoard()
-        {
-            CellStates.Clear();
-            Refresh();
         }
 
         protected override void OnPaint(PaintEventArgs e)
